@@ -1,7 +1,7 @@
 import json
 import os
 
-from classes import Biome, Biomes, Config, Configurations
+from lemon_weather_generator.classes import Biome, Biomes, Config, Configurations
 
 config_path = os.path.join(os.path.dirname(__file__), '..', 'configurations')
 

@@ -1,8 +1,4 @@
 class Config:
-    def __init__(self, effects: dict):
+    def __init__(self, decimal_digits: int, effects: dict):
+        self.decimal_digits = decimal_digits
         self.effects = effects
-
-    def __eq__(self, other):
-        if isinstance(other, Config):
-            return (self.effects == other.effects)
-        return False

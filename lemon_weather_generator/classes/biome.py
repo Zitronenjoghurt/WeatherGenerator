@@ -1,3 +1,5 @@
+import random
+
 class Biome:
     def __init__(self, name: str, temperatures: list):
         self.name = name
@@ -7,6 +9,10 @@ class Biome:
         if isinstance(other, Biome):
             return (self.temperatures == other.temperatures and self.temperatures == other.temperatures)
         return False
+    
+    def randomTemperature(self, decimal_digits):
+        temp = random.uniform(self.temperatures[0], self.temperatures[1])
+        return round(temp, decimal_digits)
     
 class Biomes:
     def __init__(self, biome_list: list[Biome]):
