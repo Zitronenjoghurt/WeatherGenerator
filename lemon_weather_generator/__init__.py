@@ -1,1 +1,1 @@
-from .main import foo
+from .main import loadConfigurations

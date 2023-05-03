@@ -1,4 +1,5 @@
-from lemon_weather_generator import foo
+from lemon_weather_generator import loadConfigurations
 
-def test_foo():
-    assert foo() == "bar"
+def test_loadConfigurations():
+    assert loadConfigurations() == {"effects": {"temperatureCloudiness": True}
+}
