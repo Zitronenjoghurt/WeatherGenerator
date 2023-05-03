@@ -7,7 +7,7 @@ class Biome:
 
     def __eq__(self, other):
         if isinstance(other, Biome):
-            return (self.temperatures == other.temperatures and self.temperatures == other.temperatures)
+            return (self.name == other.name and self.temperatures == other.temperatures)
         return False
     
     def randomTemperature(self, decimal_digits):
