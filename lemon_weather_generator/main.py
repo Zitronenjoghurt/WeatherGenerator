@@ -1,5 +1,8 @@
 from .modules import configLoader
+from .classes import Configurations
 
 def loadConfigurations():
     config = configLoader.getConfig()
-    return config
+    biomes = configLoader.getBiomes()
+
+    return Configurations(config, biomes)
