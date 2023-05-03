@@ -1,1 +1,1 @@
-from .configLoader import getConfig
+from .configLoader import loadConfigurations

@@ -12,6 +12,9 @@ class Biomes:
     def __init__(self, biome_list: list[Biome]):
         self.biomes_list = biome_list
 
+    def __getitem__(self, key):
+        return self.biomes_list[key]
+
     def findBiomeByName(self, name: str) -> Biome|None:
         result = [item for item in self.biomes_list if item.name == name.lower()]
 

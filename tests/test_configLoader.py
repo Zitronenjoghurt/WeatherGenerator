@@ -1,5 +1,4 @@
-from lemon_weather_generator import loadConfigurations
-from lemon_weather_generator.classes import *
+from lemon_weather_generator.modules import loadConfigurations
 
 def test_loadConfigurations():
     configurations = loadConfigurations()

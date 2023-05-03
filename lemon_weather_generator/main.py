@@ -1,8 +1,6 @@
-from .modules import configLoader
-from .classes import Configurations
+import sys
 
-def loadConfigurations() -> Configurations:
-    config = configLoader.getConfig()
-    biomes = configLoader.getBiomes()
+from modules import loadConfigurations
 
-    return Configurations(config, biomes)
+ConfigData = loadConfigurations()
+print(sys.argv)
