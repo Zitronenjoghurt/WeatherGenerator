@@ -1,5 +1,5 @@
 # WeatherGenerator (work in progress)
-Generate detailed random weather data for use in creative writing while aiming to be highly customizable and easily extendable. You can either use it via command line or include the library in your own project!
+Generates detailed random weather data for use in e.g. creative writing or roleplay while aiming to be highly customizable and easily extendable. You can either use it via command line or include the library in your own project!
 
 ## Command line
 This instructions will explain how to set up WeatherGenerator for use via command line.
