@@ -1,5 +1,5 @@
 class Config:
-    def __init__(self, effects):
+    def __init__(self, effects: dict):
         self.effects = effects
 
     def __eq__(self, other):

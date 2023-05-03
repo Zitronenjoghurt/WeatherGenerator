@@ -1,7 +1,7 @@
 import json
 import os
 
-from lemon_weather_generator.classes import Biome, Config
+from lemon_weather_generator.classes import Biome, Biomes, Config
 
 config_path = os.path.join(os.path.dirname(__file__), '..', 'configurations')
 
@@ -13,11 +13,10 @@ def getConfig() -> Config:
         data = json.load(f)
     return Config(**data)
 
-def getBiomes() -> list[Biome]:
+def getBiomes() -> Biomes:
     biomes = []
     for file in biome_files:
         with open(biome_path + "\\" + file, 'r') as f:
             data = json.load(f)
-        biome = Biome(**data)
-        biomes.append(biome)
-    return biomes
+        biomes.append(Biome(**data))
+    return Biomes(biomes)
