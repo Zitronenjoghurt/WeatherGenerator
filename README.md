@@ -28,4 +28,14 @@ As you have probably already noticed, the general syntax for using the weather g
 python main.py {biome} {season}
 ```
 
-## Configuration
+---------------------------------------
+
+# Configuration
+
+## config.json
+To customize general settings you can edit `/configurations/config.json`
+
+|Property|Type|Description|Example|Default|
+|---|---|---|---|---|
+|`decimal_digits`|int|How many decimal places randomly generated numbers will have.|`0`, `1`, ...|`1`
+|`temperature_unit`|str|The unit that gets used for randomly generated temperatures.|°K = `K` \| °C = `C` \| °F = `F`|`C`
