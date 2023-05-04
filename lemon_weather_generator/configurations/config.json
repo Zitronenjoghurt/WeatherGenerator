@@ -1,5 +1,6 @@
 {
     "decimal_digits": 1,
+    "temperature_unit": "C",
     "effects": {
         "temperatureCloudiness": true
     }

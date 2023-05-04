@@ -1,9 +1,7 @@
 from . import loadConfigurations
 
-from lemon_weather_generator.classes import Biome, Biomes
-
-def randomizeWeather(biomeName: str):
+def randomizeWeather(biomeName: str, seasonName: str):
     Configuration = loadConfigurations()
     
-    biome = Configuration.biomes.findBiomeByName(biomeName)
-    return biome.randomTemperature(Configuration.config.decimal_digits)
+    biome = Configuration.biomes[biomeName]
+    return biome[seasonName].randomTemperature(Configuration.config.decimal_digits)
