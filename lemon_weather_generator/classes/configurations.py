@@ -1,5 +1,13 @@
 from . import Config, Biomes
+
 class Configurations:
-    def __init__(self, config: Config, biomes: Biomes):
-        self.config = config
-        self.biomes = biomes
+    __instance = None
+
+    def __init__(self):
+        self.config = Config.get_instance()
+        self.biomes = Biomes.get_instance()
+
+    def get_instance():
+        if Configurations.__instance is None:
+            Configurations.__instance = Configurations()
+        return Configurations.__instance

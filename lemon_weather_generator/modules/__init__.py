@@ -1,2 +1,1 @@
-from .configLoader import loadConfigurations
 from .weatherRandomizer import randomizeWeather

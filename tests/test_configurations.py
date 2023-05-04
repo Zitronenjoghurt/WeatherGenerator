@@ -1,11 +1,10 @@
-from lemon_weather_generator.modules import loadConfigurations
+from lemon_weather_generator.classes import Configurations
 
-def test_loadConfigurations():
-    configurations = loadConfigurations()
+def test_instantiation():
+    configurations = Configurations.get_instance()
     
     config = configurations.config
     biomes = configurations.biomes
-
-    # test a selection of values
+    
     assert config.effects['temperatureCloudiness'] == True
     assert biomes['temperate']['spring'].temperatures == [10, 20]

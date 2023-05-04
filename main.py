@@ -1,10 +1,11 @@
 import sys
 
-from lemon_weather_generator import loadConfigurations, randomizeWeather
+from lemon_weather_generator.classes import Configurations
+from lemon_weather_generator.modules import randomizeWeather
 
-ConfigData = loadConfigurations()
+ConfigData = Configurations.get_instance()
 
-def validateCommandArguments(args):
+def validateCommandArguments(args: list[str]) -> tuple[str, str]:
     del args[0]
 
     if (len(args) == 0):
