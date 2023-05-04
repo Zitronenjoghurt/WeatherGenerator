@@ -8,4 +8,4 @@ def test_loadConfigurations():
 
     # test a selection of values
     assert config.effects['temperatureCloudiness'] == True
-    assert biomes['temperate'].temperatures == [0, 20]
+    assert biomes['temperate']['spring'].temperatures == [10, 20]

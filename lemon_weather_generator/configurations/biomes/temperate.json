@@ -1,4 +1,21 @@
 {
     "name": "temperate",
-    "temperatures": [0, 20]
+    "seasons": [
+        {
+            "name": "spring",
+            "temperatures": [10,20]
+        },
+        {
+            "name": "summer",
+            "temperatures": [15, 35]
+        },
+        {
+            "name": "autumn",
+            "temperatures": [10, 15]
+        },
+        {
+            "name": "winter",
+            "temperatures": [-20, 5]
+        }
+    ]
 }

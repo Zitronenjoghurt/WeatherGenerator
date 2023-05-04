@@ -1,18 +1,21 @@
-import random
+from .season import Season, Seasons
 
 class Biome:
-    def __init__(self, name: str, temperatures: list):
+    def __init__(self, name: str, seasons: list):
         self.name = name.lower()
-        self.temperatures = temperatures
 
-    def __eq__(self, other):
+        season_list = []
+        for season in seasons:
+            season_list.append(Season(**season))
+        self.seasons = Seasons(season_list)
+
+    def __eq__(self, other) -> bool:
         if isinstance(other, Biome):
-            return (self.name == other.name and self.temperatures == other.temperatures)
+            return (self.name == other.name and self.seasons == other.seasons)
         return False
     
-    def randomTemperature(self, decimal_digits):
-        temp = random.uniform(self.temperatures[0], self.temperatures[1])
-        return round(temp, decimal_digits)
+    def __getitem__(self, season_name: str) -> Season:
+        return self.seasons[season_name]
     
 class Biomes:
     def __init__(self, biome_list: list[Biome]):
@@ -22,5 +25,5 @@ class Biomes:
             if biome.name not in self.biome_dict:
                 self.biome_dict[biome.name] = biome
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: str) -> Biome:
         return self.biome_dict[key.lower()]
