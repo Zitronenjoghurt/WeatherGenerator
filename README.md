@@ -10,7 +10,7 @@ The things you need to have preinstalled:
 - Git
 
 ### Clone the project
-In the console of your chosing run:
+In the console of your choosing run:
 ```
 git clone https://github.com/Zitronenjoghurt/WeatherGenerator.git
 ```
