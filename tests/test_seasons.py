@@ -4,8 +4,8 @@ def test_instantiation():
     seasons = Seasons([Season('spring', 50, [0, 20])])
 
     assert seasons['spring'].name == 'spring'
-    assert seasons['spring'].temperatures[0] == 0
-    assert seasons['spring'].temperatures[1] == 20
+    assert seasons['spring'].temperatures.min == 0
+    assert seasons['spring'].temperatures.max == 20
 
 def test_eq():
     seasons1 = Seasons([Season('spring', 50, [0, 20])])

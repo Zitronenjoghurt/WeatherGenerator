@@ -1,11 +1,17 @@
 import random
 
+from .probability import Propability
+
 class Season:
-    def __init__(self, name: str = "no_name", daytime_percentage: float = 50, temperatures: list = [0,20], amount_of_days: int = 90):
+    def __init__(self, name: str = "no_name", daytime_percentage: float = 50, temperatures: list|dict = [0,20], amount_of_days: int = 90):
         self.name = name.lower()
         self.amount_of_days = amount_of_days
         self.daytime_percentage = daytime_percentage
-        self.temperatures = temperatures
+
+        if type(temperatures) == dict:
+            self.temperatures = Propability(**temperatures)
+        else:
+            self.temperatures = Propability.getFromList(temperatures)
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Season):
@@ -16,7 +22,7 @@ class Season:
         return False
     
     def randomTemperature(self, decimal_digits: int) -> float:
-        temp = random.uniform(self.temperatures[0], self.temperatures[1])
+        temp = self.temperatures.randomize()
         return round(temp, decimal_digits)
 
 class Seasons:
