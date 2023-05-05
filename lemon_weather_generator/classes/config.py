@@ -11,6 +11,7 @@ class Config:
 
         self.decimal_digits = data['decimal_digits']
         self.temperature_unit = data['temperature_unit']
+        self.hours_per_day = data['hours_per_day']
         self.effects = data['effects']
 
     def get_instance():
