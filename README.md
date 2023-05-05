@@ -34,7 +34,7 @@ To customize biomes you can create or edit files in `/configurations/biomes`. An
 |Property|Type|Description|Default|Values|
 |---|---|---|---|---|
 |`name`|str|The name of the biome. It's case insensitive and has to be unique.|`no_name`||
-|`temperature_unit`|str|The unit of the specified seasons temperature data.|`C`|`K`=°K \| `C`=°C \| `F`=°F
+|`temperature_unit`|str|The unit of the specified seasons temperature data.|`C`|`K`= K \| `C`=°C \| `F`=°F
 |`seasons`|list[Seasons]|Different seasons of the biome which each have different data to generate a realistic variation of weather data. (Look in the Seasons section for more info)|`[]`||
 
 ## Seasons
