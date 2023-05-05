@@ -6,8 +6,8 @@
             "name": "spring",
             "daytime_percentage": 50,
             "temperatures": {
-                "min": 10,
-                "max": 20,
+                "min": 5,
+                "max": 25,
                 "mean": 15,
                 "deviation": 2
             }
@@ -15,17 +15,32 @@
         {
             "name": "summer",
             "daytime_percentage": 70,
-            "temperatures": [15, 35]
+            "temperatures": {
+                "min": 20,
+                "max": 50,
+                "mean": 35,
+                "deviation": 4
+            }
         },
         {
             "name": "autumn",
             "daytime_percentage": 50,
-            "temperatures": [10, 15]
+            "temperatures": {
+                "min": 5,
+                "max": 15,
+                "mean": 10,
+                "deviation": 1.5
+            }
         },
         {
             "name": "winter",
             "daytime_percentage": 30,
-            "temperatures": [-20, 5]
+            "temperatures": {
+                "min": -40,
+                "max": 5,
+                "mean": -15,
+                "deviation": 7
+            }
         }
     ]
 }
