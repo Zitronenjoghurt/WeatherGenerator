@@ -7,7 +7,7 @@ setup(
     author='Zitronenjoghurt',
     license='Apache 2.0',
     install_requires=[],
-    setup_requires=['pytest-runner'],
+    setup_requires=['pytest-runner', 'matplotlib'],
     tests_require=['pytest==7.3.1'],
     test_suite='tests',
 )
