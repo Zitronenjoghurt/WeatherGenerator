@@ -45,4 +45,4 @@ To customize biomes you can create or edit files in `/configurations/biomes`. An
 |`name`|str|The name of the season. It's case insensitive and has to be unique.|`no_name`||
 |`amount_of_days`|int|The amount of days the season will have.|`90`||
 |`daytime_percentage`|float|The percentage of daylight the first day of a season has. 50 means 50% day, 50% night. 60 means 60% day, 40% night. Throughout the season the daytime_percentage will gradually shift towards that of the next season.|`50`| between 0 and 100|
-|`temperatures`|list[float]|The lowest and highest temperature of a season.|`[0, 20]`|`[float, float]`|
+|`temperatures`|list[float] or dict|You can either use a list with lowest and highest temperature or a dictionary containing the following values: min, max, mean, deviation|`[0, 20]`|`[float, float]` or `{'min': float, 'max': float, 'mean': float, 'deviation': float}`|
