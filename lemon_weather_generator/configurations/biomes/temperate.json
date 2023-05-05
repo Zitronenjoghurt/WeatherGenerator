@@ -5,7 +5,12 @@
         {
             "name": "spring",
             "daytime_percentage": 50,
-            "temperatures": [10,20]
+            "temperatures": {
+                "min": 10,
+                "max": 20,
+                "mean": 15,
+                "deviation": 2
+            }
         },
         {
             "name": "summer",

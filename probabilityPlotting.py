@@ -3,10 +3,10 @@
 import random
 from matplotlib import pyplot as plt
 
-a = -10
-b = 15
-mean = -8
-deviation = 7
+a = 10
+b = 20
+mean = 15
+deviation = 2
 num_samples = 1000000
 
 samples = []

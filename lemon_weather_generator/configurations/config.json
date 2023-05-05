@@ -1,5 +1,5 @@
 {
-    "decimal_digits": 1,
+    "decimal_digits": 2,
     "temperature_unit": "C",
     "hours_per_day": 24,
     "effects": {
