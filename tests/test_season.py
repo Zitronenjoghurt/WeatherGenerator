@@ -1,25 +1,25 @@
 from lemon_weather_generator.classes import Season
 
 def test_instantiation():
-    season = Season('SPRING', [0, 20])
+    season = Season('SPRING', 50, [0, 20])
 
     assert season.name == 'spring'
     assert season.temperatures[0] == 0
     assert season.temperatures[1] == 20
 
 def test_eq():
-    season1 = Season('SPRING', [0, 20])
-    season2 = Season('sPrInG', [0, 20])
-    season3 = Season('summer', [15, 35])
-    season4 = Season('winter', [-50, 0])
+    season1 = Season('SPRING', 50, [0, 20])
+    season2 = Season('sPrInG', 50, [0, 20])
+    season3 = Season('summer', 70, [15, 35])
+    season4 = Season('winter', 30, [-50, 0])
 
     assert season1 == season2
     assert season1 != season3
     assert season3 != season4
 
 def test_randomTemperature():
-    season1 = Season('summer', [15, 35])
-    season2 = Season('winter', [-50, 0])
+    season1 = Season('summer', 70, [15, 35])
+    season2 = Season('winter', 30, [-50, 0])
 
     temp1 = season1.randomTemperature(1)
     assert temp1 >= 15 and temp1 <= 35

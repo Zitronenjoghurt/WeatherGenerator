@@ -9,8 +9,9 @@ biome_path = config_path + "\\biomes"
 biome_files = [f for f in os.listdir(biome_path) if f.endswith('.json')]
 
 class Biome:
-    def __init__(self, name: str, seasons: list):
+    def __init__(self, name: str = "no_name", temperature_unit: str = "C", seasons: list = []):
         self.name = name.lower()
+        self.temperature_unit = temperature_unit
 
         season_list = []
         for season in seasons:
@@ -19,7 +20,7 @@ class Biome:
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Biome):
-            return (self.name == other.name and self.seasons == other.seasons)
+            return (self.name == other.name and self.temperature_unit == other.temperature_unit and self.seasons == other.seasons)
         return False
     
     def __getitem__(self, season_name: str) -> Season:

@@ -1,20 +1,25 @@
 {
     "name": "temperate",
+    "temperature_unit": "C",
     "seasons": [
         {
             "name": "spring",
+            "daytime_percentage": 50,
             "temperatures": [10,20]
         },
         {
             "name": "summer",
+            "daytime_percentage": 70,
             "temperatures": [15, 35]
         },
         {
             "name": "autumn",
+            "daytime_percentage": 50,
             "temperatures": [10, 15]
         },
         {
             "name": "winter",
+            "daytime_percentage": 30,
             "temperatures": [-20, 5]
         }
     ]
