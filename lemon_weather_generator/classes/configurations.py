@@ -1,4 +1,5 @@
-from . import Config, Biomes
+from .config import Config
+from . import Biomes
 
 class Configurations:
     __instance = None

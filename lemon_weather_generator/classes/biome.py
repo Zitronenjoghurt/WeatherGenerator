@@ -15,8 +15,8 @@ class Biome:
 
         season_list = []
         for season in seasons:
-            season_list.append(Season(**season))
-        self.seasons = Seasons(season_list)
+            season_list.append(season)
+        self.seasons = Seasons(self, season_list)
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Biome):

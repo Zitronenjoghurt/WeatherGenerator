@@ -1,9 +1,12 @@
 import random
 
+from .config import Config
 from .probability import Propability
+from ..modules import unitConverter
 
 class Season:
-    def __init__(self, name: str = "no_name", daytime_percentage: float = 50, temperatures: list|dict = [0,20], amount_of_days: int = 90):
+    def __init__(self, parent_seasons = None, name: str = "no_name", daytime_percentage: float = 50, temperatures: list|dict = [0,20], amount_of_days: int = 90):
+        self.parent_seasons = parent_seasons
         self.name = name.lower()
         self.amount_of_days = amount_of_days
         self.daytime_percentage = daytime_percentage
@@ -21,17 +24,23 @@ class Season:
                     and self.temperatures == other.temperatures)
         return False
     
-    def randomTemperature(self, decimal_digits: int) -> float:
+    def randomTemperature(self) -> float:
+        config = Config.get_instance()
+
+        source_unit = self.parent_seasons.parent_biome.temperature_unit
+        target_unit = config.temperature_unit
+
         temp = self.temperatures.randomize()
-        return round(temp, decimal_digits)
+        return unitConverter.convertTemperature(temp, source_unit, target_unit)
 
 class Seasons:
-    def __init__(self, season_list: list[Season]):
+    def __init__(self, parent_biome = None, season_list: list[dict] = []):
+        self.parent_biome = parent_biome
         self.season_dict = {}
 
         for season in season_list:
-            if season.name not in self.season_dict:
-                self.season_dict[season.name] = season
+            if season['name'] not in self.season_dict:
+                self.season_dict[season['name']] = Season(self, **season)
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Seasons):

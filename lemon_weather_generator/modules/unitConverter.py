@@ -1,4 +1,4 @@
-from lemon_weather_generator.classes import Config
+from lemon_weather_generator.classes.config import Config
 
 def convertTemperature(value: float, original_unit: str, target_unit: str) -> float:
     config = Config.get_instance()
