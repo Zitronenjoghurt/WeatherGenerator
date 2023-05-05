@@ -25,7 +25,7 @@ To customize general settings you can edit `/configurations/config.json`
 |Property|Type|Description|Default|Values|
 |---|---|---|---|---|
 |`decimal_digits`|int|How many decimal places randomly generated numbers will have.|`2`||
-|`temperature_unit`|str|The unit that gets used for randomly generated temperatures.|`C`|`K`=°K \| `C`=°C \| `F`=°F
+|`temperature_unit`|str|The unit that gets used for randomly generated temperatures.|`C`|`K`= K \| `C`=°C \| `F`=°F
 |`hours_per_day`|int|How many hours of weather forecast each day should have.|`24`||
 
 ## Biomes
