@@ -15,19 +15,6 @@ In the console of your choosing run:
 git clone https://github.com/Zitronenjoghurt/WeatherGenerator.git
 ```
 
-### Using it in command line
-Head to the WeatherGenerator directory. WeatherGenerator can generate weather based on different parameters like biome and season. An example on how to use it would be:
-```
-python main.py temperate summer
-```
-This will return some weather data based on configurations you can easily edit yourself (look in the Configuration section for more info).
-
-### General command syntax
-As you have probably already noticed, the general syntax for using the weather generator is as follows (while not including the {}):
-```
-python main.py {biome} {season}
-```
-
 ---------------------------------------
 
 # Configuration
