@@ -1,27 +1,26 @@
 import random
 
 from .config import Config
-from .probability import Propability
+from .probability import Probability
 from ..modules import unitConverter
 
 class Season:
-    def __init__(self, parent_seasons = None, name: str = "no_name", daytime_percentage: float = 50, temperatures: list|dict = [0,20], amount_of_days: int = 90):
+    def __init__(self, parent_seasons = None, name: str = "no_name", daytime_percentage: float = 50, temperatures: list[float]|dict = [0,20], amount_of_days: int = 90, cooling: list[float] = [0,0]):
         self.parent_seasons = parent_seasons
         self.name = name.lower()
         self.amount_of_days = amount_of_days
         self.daytime_percentage = daytime_percentage
-
-        if type(temperatures) == dict:
-            self.temperatures = Propability(**temperatures)
-        else:
-            self.temperatures = Propability.getFromList(temperatures)
+        self.temperatures = Probability.getFromListOrDict(temperatures)
+        self.cooling = Probability.getFromListOrDict(cooling)
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Season):
-            return (self.name == other.name 
+            return (self.name == other.name
                     and self.amount_of_days == other.amount_of_days
                     and self.daytime_percentage == other.daytime_percentage 
-                    and self.temperatures == other.temperatures)
+                    and self.temperatures == other.temperatures
+                    and self.amount_of_days == other.amount_of_days
+                    and self.cooling == other.cooling)
         return False
     
     def randomTemperature(self) -> float:
@@ -49,3 +48,6 @@ class Seasons:
 
     def __getitem__(self, key: str) -> Season:
         return self.season_dict[key.lower()]
+    
+    def getSeasonList(self) -> list[Season]:
+        return list(self.season_dict.values())

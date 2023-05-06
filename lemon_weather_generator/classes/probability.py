@@ -1,6 +1,6 @@
 import random
 
-class Propability:
+class Probability:
     def __init__(self, min: float, max: float, mean: float = 0, deviation: float = 0):
         self.min = min
         self.max = max
@@ -8,20 +8,26 @@ class Propability:
         self.deviation = deviation
     
     def __eq__(self, other) -> bool:
-        if isinstance(other, Propability):
+        if isinstance(other, Probability):
             return (self.min == other.min
                     and self.max == other.max
                     and self.mean == other.mean
                     and self.deviation == other.deviation)
         return False
 
-    def getFromList(values: list):
-        min = values[0]
-        max = values[1]
-        mean = (min + max) / 2
-        deviation = (max - min) * 2
+    def getFromListOrDict(values: list|dict):
+        if type(values) == list:
+            min = values[0]
+            max = values[1]
+            mean = (min + max) / 2
+            deviation = (max - min) * 2
+        else:
+            min = values['min']
+            max = values['max']
+            mean = values['mean']
+            deviation = values['deviation']
 
-        return Propability(min, max, mean, deviation)
+        return Probability(min, max, mean, deviation)
 
     def randomize(self):
         return self.normalDistribution()

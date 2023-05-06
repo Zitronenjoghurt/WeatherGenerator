@@ -10,7 +10,8 @@
                 "max": 25,
                 "mean": 15,
                 "deviation": 2
-            }
+            },
+            "cooling": [3, 5]
         },
         {
             "name": "summer",
@@ -20,7 +21,8 @@
                 "max": 50,
                 "mean": 35,
                 "deviation": 4
-            }
+            },
+            "cooling": [5, 10]
         },
         {
             "name": "autumn",
@@ -30,7 +32,8 @@
                 "max": 15,
                 "mean": 10,
                 "deviation": 1.5
-            }
+            },
+            "cooling": [3, 5]
         },
         {
             "name": "winter",
@@ -40,7 +43,8 @@
                 "max": 5,
                 "mean": -15,
                 "deviation": 7
-            }
+            },
+            "cooling": [5, 10]
         }
     ]
 }

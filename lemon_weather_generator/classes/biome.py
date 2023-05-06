@@ -1,7 +1,10 @@
 import os
 import json
+from bisect import bisect_left
+from itertools import accumulate
 
 from .season import Season, Seasons
+from .errors import DayOutOfBiomeRange
 
 config_path = os.path.join(os.path.dirname(__file__), '..', 'configurations')
 
@@ -25,6 +28,24 @@ class Biome:
     
     def __getitem__(self, season_name: str) -> Season:
         return self.seasons[season_name]
+    
+    def getTotalAmountOfDays(self) -> int:
+        return sum(season.amount_of_days for season in self.seasons.getSeasonList())
+    
+    def getSeasonFromDayOfYear(self, day_of_year: int) -> tuple[Season, int]:
+        biome_max_days = self.getTotalAmountOfDays()
+
+        if day_of_year < 1 or day_of_year > biome_max_days:
+            raise DayOutOfBiomeRange(self.name, biome_max_days, day_of_year)
+    
+        cumulative_days = [0] + list(accumulate(season.amount_of_days for season in self.seasons.getSeasonList()))
+    
+        season_index = bisect_left(cumulative_days, day_of_year) - 1
+        resulting_season = list(self.seasons.getSeasonList())[season_index]
+        
+        day_of_season = day_of_year - cumulative_days[season_index]
+
+        return (resulting_season, day_of_season)    
     
 class Biomes:
     __instance = None
