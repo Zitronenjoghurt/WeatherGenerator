@@ -16,16 +16,15 @@ class Propability:
         return False
 
     def getFromList(values: list):
-        return Propability(values[0], values[1], 0, 0)
+        min = values[0]
+        max = values[1]
+        mean = (min + max) / 2
+        deviation = (max - min) * 2
+
+        return Propability(min, max, mean, deviation)
 
     def randomize(self):
-        if self.mean == 0 and self.deviation == 0:
-            return self.randomInBetween()
-        else:
-            return self.normalDistribution()
-        
-    def randomInBetween(self):
-        return random.uniform(self.min, self.max)
+        return self.normalDistribution()
 
     def normalDistribution(self):
         x = random.gauss(self.mean, self.deviation)
