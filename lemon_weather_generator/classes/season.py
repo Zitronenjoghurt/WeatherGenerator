@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 import random
 
 from .config import Config
 from .probability import Probability
 from ..modules import unitConverter
+from ..modules.valueTransition import *
 
 class Season:
     def __init__(self, parent_seasons = None, name: str = "no_name", daytime_percentage: float = 50, temperatures: list[float]|dict = [0,20], amount_of_days: int = 90, cooling: list[float] = [0,0]):
@@ -23,14 +26,67 @@ class Season:
                     and self.cooling == other.cooling)
         return False
     
-    def randomTemperature(self) -> float:
+    # The values given for a season in the config are only for the middle of a season
+    # => e.g. at the beginning of spring its still a bit colder and towards the end it gets warmer, transitioning to summer
+    # this function will return a season that has the proper parameters for a given day of the season
+    def getTransitionSeason(self, day_of_season: int) -> Season:
+        middle_of_season = int(self.amount_of_days / 2)
+
+        targetSeason = None
+        if day_of_season > middle_of_season:
+            targetSeason = self.getNextSeason()
+        elif day_of_season < middle_of_season:
+            targetSeason = self.getPreviousSeason()
+        else:
+            return self
+        
+        progress = abs(middle_of_season - day_of_season) / (middle_of_season + targetSeason.amount_of_days/2)
+
+        daytime_percentage = transitionValue(self.daytime_percentage, targetSeason.daytime_percentage, progress)
+        amount_of_days = transitionValue(self.amount_of_days, targetSeason.amount_of_days, progress)
+        temperatures = transitionValueList(self.temperatures.toList(), targetSeason.temperatures.toList(), progress)
+        cooling = transitionValueList(self.cooling.toList(), targetSeason.cooling.toList(), progress)
+
+        transitionSeason = Season(
+            parent_seasons = self.parent_seasons,
+            name = self.name,
+            daytime_percentage = daytime_percentage,
+            amount_of_days = amount_of_days,
+            temperatures = temperatures,
+            cooling = cooling
+        )
+        
+        return transitionSeason
+
+    def getPreviousSeason(self) -> Season:
+        index = self.getIndexInSeasonList()
+        season_list = self.parent_seasons.getSeasonList()
+        
+        return season_list[index - 1]
+
+    def getNextSeason(self) -> Season:
+        index = self.getIndexInSeasonList()
+        season_list = self.parent_seasons.getSeasonList()
+
+        if index + 1 >= len(season_list):
+            index = -1
+
+        return season_list[index + 1]
+
+    def getIndexInSeasonList(self) -> int:
+        return self.parent_seasons.getSeasonList().index(self)
+    
+    def getSunRiseHour(self):
         config = Config.get_instance()
 
-        source_unit = self.parent_seasons.parent_biome.temperature_unit
-        target_unit = config.temperature_unit
+        sunrise_hour = config.hours_per_day/2 - (config.hours_per_day*(self.daytime_percentage/100))/2
+        return round(sunrise_hour, config.decimal_digits)
 
-        temp = self.temperatures.randomize()
-        return unitConverter.convertTemperature(temp, source_unit, target_unit)
+    def getSunSetHour(self):
+        config = Config.get_instance()
+
+        sunset_hour = config.hours_per_day/2 + (config.hours_per_day*(self.daytime_percentage/100))/2
+        return round(sunset_hour, config.decimal_digits)
 
 class Seasons:
     def __init__(self, parent_biome = None, season_list: list[dict] = []):

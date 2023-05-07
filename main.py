@@ -1,10 +1,10 @@
 import sys
 
-from lemon_weather_generator.modules import randomizeWeather
+from lemon_weather_generator.classes.weatherData import WeatherDay
 
 from matplotlib import pyplot as plt
 
-samples = [randomizeWeather('temperate', 'spring') for i in range(1000000)]
+samples = [WeatherDay.generateFromDayOfSeason('temperate', 'spring', 45) for i in range(1000000)]
 
 plt.title('Spring')
 plt.xlabel('Temperatures in °C')

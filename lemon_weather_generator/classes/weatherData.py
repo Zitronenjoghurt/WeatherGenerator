@@ -37,18 +37,20 @@ class WeatherDay:
         return WeatherDay.__generate(biome, season, day_of_season)
 
     def __generate(biome: Biome, season: Season, day_of_season: int):
-
+        temperatures = WeatherDay.__generateTemperatures(biome, season, day_of_season)
         pass
 
     def __generateTemperatures(biome: Biome, season: Season, day_of_season: int):
         config = Config.get_instance()
+        season = season.getTransitionSeason(day_of_season)
 
         cooling = season.cooling.randomize()
         warmest_temp = season.temperatures.randomize()
         coldest_temp = warmest_temp - cooling
 
-        # ToDo: finish temperature generation for hours of a day
-        pass
+        hours = config.hours_per_day
+        sunrise_hour = season.getSunRiseHour()
+        sunset_hour = season.getSunSetHour()
         
     def validateBiome(biome_name: str) -> Biome:
         biomes = Biomes.get_instance()
