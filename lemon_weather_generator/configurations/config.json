@@ -1,6 +1,7 @@
 {
     "decimal_digits": 2,
     "temperature_unit": "C",
+    "time_format": "24",
     "hours_per_day": 24,
     "effects": {
         "temperatureCloudiness": true
