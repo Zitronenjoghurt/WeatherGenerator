@@ -1,10 +1,13 @@
+from math import floor, ceil
+
 from .config import Config
 from .biome import Biome, Biomes
 from .season import Season
 from .errors import BiomeNotFound, SeasonNotFound, DayOutOfSeasonRange, DayOutOfBiomeRange
 
 class WeatherHour:
-    def __init__(self, temperature: float):
+    def __init__(self, number: int, temperature: float):
+        self.number = number
         self.temperature = temperature
 
 class WeatherDay:
@@ -38,19 +41,45 @@ class WeatherDay:
 
     def __generate(biome: Biome, season: Season, day_of_season: int):
         temperatures = WeatherDay.__generateTemperatures(biome, season, day_of_season)
-        pass
+        return temperatures
 
-    def __generateTemperatures(biome: Biome, season: Season, day_of_season: int):
+    def __generateTemperatures(biome: Biome, season: Season, day_of_season: int) -> list:
         config = Config.get_instance()
-        season = season.getTransitionSeason(day_of_season)
+        transitionSeason = season.getTransitionSeason(day_of_season)
 
-        cooling = season.cooling.randomize()
-        warmest_temp = season.temperatures.randomize()
+        sunrise_hour = transitionSeason.getSunRiseHour()
+        sunset_hour = transitionSeason.getSunSetHour()
+
+        cooling = transitionSeason.cooling.randomize()
+        warmest_temp = transitionSeason.temperatures.randomize()
         coldest_temp = warmest_temp - cooling
 
-        hours = config.hours_per_day
-        sunrise_hour = season.getSunRiseHour()
-        sunset_hour = season.getSunSetHour()
+        heating_cooling_delay = (config.hours_per_day/2) * config.heating_cooling_offset
+        coldest_time = floor(sunrise_hour + heating_cooling_delay)
+        warmest_time = ceil(sunset_hour - heating_cooling_delay)
+        
+        heating_rate = (warmest_temp - coldest_temp) / (warmest_time - coldest_time)
+        cooling_rate = heating_rate * config.cooling_rate_factor
+
+        temperature_list = []
+
+        # pre-sunrise cooling
+        for i in range(0, coldest_time):
+            temperature = round(coldest_temp - (coldest_time - i) * cooling_rate, config.decimal_digits)
+            temperature_list.append(temperature)
+
+        # heating
+        for i in range(coldest_time, warmest_time):
+            temperature = round(coldest_temp + (i-coldest_time) * heating_rate, config.decimal_digits)
+            temperature_list.append(temperature)
+
+        # post sunset cooling
+        for i in range(warmest_time, config.hours_per_day):
+            temperature = round(warmest_temp + (i-warmest_time) * cooling_rate, config.decimal_digits)
+            temperature_list.append(temperature)
+
+        return temperature_list
+
         
     def validateBiome(biome_name: str) -> Biome:
         biomes = Biomes.get_instance()

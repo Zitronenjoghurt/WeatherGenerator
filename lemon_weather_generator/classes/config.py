@@ -13,6 +13,8 @@ class Config:
         self.time_format = data['time_format']
         self.temperature_unit = data['temperature_unit']
         self.hours_per_day = data['hours_per_day']
+        self.heating_cooling_offset = data['heating_cooling_offset']
+        self.cooling_rate_factor = data['cooling_rate_factor']
         self.effects = data['effects']
 
     def get_instance():

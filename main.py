@@ -1,13 +1,16 @@
 import sys
 
 from lemon_weather_generator.classes.weatherData import WeatherDay
-
 from matplotlib import pyplot as plt
 
-samples = [WeatherDay.generateFromDayOfSeason('temperate', 'spring', 45) for i in range(1000000)]
+# ToDo: Adjust cooling speeds and offset factors => especially in winter it gets super messed up
+biome = 'temperate'
+season = 'spring'
+day = 45
+temperatures = WeatherDay.generateFromDayOfSeason(biome, season, day)
 
-plt.title('Spring')
-plt.xlabel('Temperatures in °C')
-plt.ylabel('Amount of samples')
-plt.hist(samples, bins=50)
+plt.title(f"Biome: {biome} | Season: {season} | Day: {day}")
+plt.xlabel('Hours')
+plt.ylabel('Temperatures in °C')
+plt.plot([i for i in range(24)], temperatures)
 plt.show()
