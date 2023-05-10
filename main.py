@@ -3,7 +3,7 @@ import sys
 from lemon_weather_generator.classes.weatherData import WeatherDay
 from matplotlib import pyplot as plt
 
-# ToDo: Adjust cooling speeds and offset factors => especially in winter it gets super messed up
+# ToDo: add testing for new methods in season class and fix too high peak temperature differences between days
 biome = 'temperate'
 season = 'spring'
 day = 45

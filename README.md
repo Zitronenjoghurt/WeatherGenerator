@@ -28,8 +28,7 @@ To customize general settings you can edit `/configurations/config.json`
 |`temperature_unit`|str|The unit that gets used for randomly generated temperatures.|`"C"`|`"K"`= K \| `"C"`=°C \| `"F"`=°F
 |`time_format`|str|Your preferred time format|`"24"`|`"12"` or `"24"`|
 |`hours_per_day`|int|How many hours of weather forecast each day should have.|`24`||
-|`heating_cooling_delay`|float|How much later after sunrise it starts to heat up and how much earlier before sunset it starts to cool down again.|`0.2`|0 to 1|
-|`cooling_rate_factor`|float|How much slower/faster it cools down on a day compared to the heating speed.|`-0.5`||
+|`cooling_till_midnight`|float|How much of the cooling from the current peak temperature to the lowest temperature of the next day is completed at midnight. 0.75 means that the temperature at midnight already cooled down 75% to the lowest temperature of the next day.|`0.75`|0 to 1|
 
 ## Biomes
 To customize biomes you can create or edit files in `/configurations/biomes`. An example biome for reference is `temperate.json`.

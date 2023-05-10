@@ -87,6 +87,28 @@ class Season:
 
         sunset_hour = config.hours_per_day/2 + (config.hours_per_day*(self.daytime_percentage/100))/2
         return round(sunset_hour, config.decimal_digits)
+    
+    def getTemperatureUnit(self):
+        return self.parent_seasons.parent_biome.temperature_unit
+    
+    def randomTemperatureData(self):
+        config = Config.get_instance()
+
+        warmest_temp = unitConverter.convertTemperature(self.temperatures.randomize(), self.getTemperatureUnit(), config.temperature_unit)
+        cooling = self.cooling.randomize()
+        coldest_temp = warmest_temp - cooling
+
+        warmest_time = self.getSunSetHour()
+        coldest_time = self.getSunRiseHour()
+
+        data = {
+            "coldest_temp": coldest_temp,
+            "coldest_time": coldest_time,
+            "warmest_temp": warmest_temp,
+            "warmest_time": warmest_time
+        }
+
+        return data
 
 class Seasons:
     def __init__(self, parent_biome = None, season_list: list[dict] = []):

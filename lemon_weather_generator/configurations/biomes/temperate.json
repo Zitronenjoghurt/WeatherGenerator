@@ -15,7 +15,7 @@
         },
         {
             "name": "summer",
-            "daytime_percentage": 70,
+            "daytime_percentage": 60,
             "temperatures": {
                 "min": 20,
                 "max": 50,
@@ -37,7 +37,7 @@
         },
         {
             "name": "winter",
-            "daytime_percentage": 30,
+            "daytime_percentage": 40,
             "temperatures": {
                 "min": -40,
                 "max": 5,

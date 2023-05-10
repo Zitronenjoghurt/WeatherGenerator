@@ -1,5 +1,9 @@
 from math import floor, ceil
 
+import random
+import numpy as np
+from scipy.interpolate import PchipInterpolator
+
 from .config import Config
 from .biome import Biome, Biomes
 from .season import Season
@@ -45,38 +49,35 @@ class WeatherDay:
 
     def __generateTemperatures(biome: Biome, season: Season, day_of_season: int) -> list:
         config = Config.get_instance()
-        transitionSeason = season.getTransitionSeason(day_of_season)
+        previousDaySeason = season.getTransitionSeason(day_of_season - 1)
+        currentDaySeason = season.getTransitionSeason(day_of_season)
+        nextDaySeason = season.getTransitionSeason(day_of_season + 1)
 
-        sunrise_hour = transitionSeason.getSunRiseHour()
-        sunset_hour = transitionSeason.getSunSetHour()
+        previousTempData = previousDaySeason.randomTemperatureData()
+        currentTempData = currentDaySeason.randomTemperatureData()
+        nextTempData = nextDaySeason.randomTemperatureData()
 
-        cooling = transitionSeason.cooling.randomize()
-        warmest_temp = transitionSeason.temperatures.randomize()
-        coldest_temp = warmest_temp - cooling
+        hour_0 = previousTempData['warmest_time']
+        temp_0 = previousTempData['warmest_temp']
 
-        heating_cooling_delay = (config.hours_per_day/2) * config.heating_cooling_offset
-        coldest_time = floor(sunrise_hour + heating_cooling_delay)
-        warmest_time = ceil(sunset_hour - heating_cooling_delay)
-        
-        heating_rate = (warmest_temp - coldest_temp) / (warmest_time - coldest_time)
-        cooling_rate = heating_rate * config.cooling_rate_factor
+        hour_1 = config.hours_per_day
+        temp_1 = temp_0 - (1 - config.cooling_till_midnight) * abs(temp_0 - currentTempData['coldest_temp'])
 
-        temperature_list = []
+        hour_2 = config.hours_per_day + currentTempData['coldest_time']
+        temp_2 = currentTempData['coldest_temp']
 
-        # pre-sunrise cooling
-        for i in range(0, coldest_time):
-            temperature = round(coldest_temp - (coldest_time - i) * cooling_rate, config.decimal_digits)
-            temperature_list.append(temperature)
+        hour_3 = config.hours_per_day + currentTempData['warmest_time']
+        temp_3 = currentTempData['warmest_temp']
 
-        # heating
-        for i in range(coldest_time, warmest_time):
-            temperature = round(coldest_temp + (i-coldest_time) * heating_rate, config.decimal_digits)
-            temperature_list.append(temperature)
+        hour_4 = config.hours_per_day * 2
+        temp_4 = temp_3 - (1 - config.cooling_till_midnight) * abs(temp_3 - nextTempData['coldest_temp'])
 
-        # post sunset cooling
-        for i in range(warmest_time, config.hours_per_day):
-            temperature = round(warmest_temp + (i-warmest_time) * cooling_rate, config.decimal_digits)
-            temperature_list.append(temperature)
+        hours = [hour_0, hour_1, hour_2, hour_3, hour_4]
+        temperatures = [temp_0, temp_1, temp_2, temp_3, temp_4]
+
+        weatherFunction = PchipInterpolator(hours, temperatures)
+
+        temperature_list = [weatherFunction(i) for i in range(24, 48)]
 
         return temperature_list
 
