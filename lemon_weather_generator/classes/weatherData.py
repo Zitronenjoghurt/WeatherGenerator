@@ -72,8 +72,11 @@ class WeatherDay:
         hour_4 = config.hours_per_day * 2
         temp_4 = temp_3 - (1 - config.cooling_till_midnight) * abs(temp_3 - nextTempData['coldest_temp'])
 
-        hours = [hour_0, hour_1, hour_2, hour_3, hour_4]
-        temperatures = [temp_0, temp_1, temp_2, temp_3, temp_4]
+        hour_5 = nextTempData['coldest_time'] + config.hours_per_day * 2
+        temp_5 = nextTempData['coldest_temp']
+
+        hours = [hour_0, hour_1, hour_2, hour_3, hour_4, hour_5]
+        temperatures = [temp_0, temp_1, temp_2, temp_3, temp_4, temp_5]
 
         weatherFunction = PchipInterpolator(hours, temperatures)
 
