@@ -4,7 +4,7 @@ from bisect import bisect_left
 from itertools import accumulate
 
 from .season import Season, Seasons
-from .errors import DayOutOfBiomeRange
+from ..modules.arithmetics import capBetween
 
 config_path = os.path.join(os.path.dirname(__file__), '..', 'configurations')
 
@@ -35,8 +35,8 @@ class Biome:
     def getSeasonFromDayOfYear(self, day_of_year: int) -> tuple[Season, int]:
         biome_max_days = self.getTotalAmountOfDays()
 
-        if day_of_year < 0 or day_of_year > biome_max_days:
-            raise DayOutOfBiomeRange(self.name, biome_max_days, day_of_year)
+        if day_of_year < 1 or day_of_year > biome_max_days:
+            day_of_year = capBetween(day_of_year, 1, biome_max_days)
     
         cumulative_days = [0] + list(accumulate(season.amount_of_days for season in self.seasons.getSeasonList()))
     

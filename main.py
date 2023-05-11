@@ -3,7 +3,7 @@ import sys
 from lemon_weather_generator.classes.weatherData import WeatherDay
 from matplotlib import pyplot as plt
 
-# ToDo: add testing for new methods in season class and fix too high peak temperature differences between days
+# ToDo: fix peak temperature of previous day able to be lower than low temperature of current day
 biome = 'temperate'
 season = 'spring'
 day = 45

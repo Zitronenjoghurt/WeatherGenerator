@@ -8,13 +8,14 @@ from ..modules import unitConverter
 from ..modules.valueTransition import *
 
 class Season:
-    def __init__(self, parent_seasons = None, name: str = "no_name", daytime_percentage: float = 50, temperatures: list[float]|dict = [0,20], amount_of_days: int = 90, cooling: list[float] = [0,0]):
+    def __init__(self, parent_seasons = None, name: str = "no_name", daytime_percentage: float = 50, temperatures: list[float]|dict = [0,20], max_days_temperature_difference: float = 5, amount_of_days: int = 90, cooling: list[float] = [0,0]):
         self.parent_seasons = parent_seasons
         self.name = name.lower()
         self.amount_of_days = amount_of_days
         self.daytime_percentage = daytime_percentage
         self.temperatures = Probability.getFromListOrDict(temperatures)
         self.cooling = Probability.getFromListOrDict(cooling)
+        self.max_days_temperature_difference = max_days_temperature_difference
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Season):
@@ -23,7 +24,8 @@ class Season:
                     and self.daytime_percentage == other.daytime_percentage 
                     and self.temperatures == other.temperatures
                     and self.amount_of_days == other.amount_of_days
-                    and self.cooling == other.cooling)
+                    and self.cooling == other.cooling
+                    and self.max_days_temperature_difference == other.max_days_temperature_difference)
         return False
     
     # The values given for a season in the config are only for the middle of a season
@@ -76,27 +78,32 @@ class Season:
     def getIndexInSeasonList(self) -> int:
         return self.parent_seasons.getSeasonList().index(self)
     
-    def getSunRiseHour(self):
+    def getSunRiseHour(self) -> float:
         config = Config.get_instance()
 
         sunrise_hour = config.hours_per_day/2 - (config.hours_per_day*(self.daytime_percentage/100))/2
         return round(sunrise_hour, config.decimal_digits)
 
-    def getSunSetHour(self):
+    def getSunSetHour(self) -> float:
         config = Config.get_instance()
 
         sunset_hour = config.hours_per_day/2 + (config.hours_per_day*(self.daytime_percentage/100))/2
         return round(sunset_hour, config.decimal_digits)
     
-    def getTemperatureUnit(self):
+    def getTemperatureUnit(self) -> str:
         return self.parent_seasons.parent_biome.temperature_unit
     
-    def randomTemperatureData(self):
+    def randomTemperatureData(self, reference_coldest: float|None = None, reference_warmest: float|None = None) -> dict:
         config = Config.get_instance()
 
         warmest_temp = unitConverter.convertTemperature(self.temperatures.randomize(), self.getTemperatureUnit(), config.temperature_unit)
         cooling = unitConverter.convertTemperatureDifference(self.cooling.randomize(), self.getTemperatureUnit(), config.temperature_unit)
-        coldest_temp = warmest_temp - cooling
+        coldest_temp = round(warmest_temp - cooling, config.decimal_digits)
+
+        if reference_warmest is not None:
+            warmest_temp = self.ensureMaxTemperatureDifference(warmest_temp, reference_warmest)
+        if reference_coldest is not None:
+            coldest_temp = self.ensureMaxTemperatureDifference(coldest_temp, reference_coldest)
 
         warmest_time = self.getSunSetHour()
         coldest_time = self.getSunRiseHour()
@@ -109,6 +116,21 @@ class Season:
         }
 
         return data
+    
+    def ensureMaxTemperatureDifference(self, generated_temp: float|None = None, reference_temp: float|None = None) -> float:
+        if reference_temp is None or generated_temp is None:
+            return generated_temp
+        
+        tooHigh = generated_temp - reference_temp > self.max_days_temperature_difference
+        tooLow = reference_temp - generated_temp > self.max_days_temperature_difference
+        
+        if tooHigh:
+            return round(reference_temp + random.uniform(0, self.max_days_temperature_difference))
+        elif tooLow:
+            return round(reference_temp - random.uniform(0, self.max_days_temperature_difference))
+        else:
+            return generated_temp
+
 
 class Seasons:
     def __init__(self, parent_biome = None, season_list: list[dict] = []):

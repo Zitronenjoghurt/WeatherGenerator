@@ -3,7 +3,7 @@
     "temperature_unit": "C",
     "time_format": "24",
     "hours_per_day": 24,
-    "cooling_till_midnight": 0.75,
+    "cooling_till_midnight": 0.6,
     "effects": {
         "temperatureCloudiness": true
     }

@@ -3,7 +3,8 @@ from scipy.interpolate import PchipInterpolator
 from .config import Config
 from .biome import Biome, Biomes
 from .season import Season
-from .errors import BiomeNotFound, SeasonNotFound, DayOutOfSeasonRange, DayOutOfBiomeRange
+from .errors import BiomeNotFound, SeasonNotFound
+from ..modules.arithmetics import capBetween
 
 class WeatherHour:
     def __init__(self, number: int, temperature: float):
@@ -35,7 +36,7 @@ class WeatherDay:
         season = WeatherDay.validateSeason(biome, season_name)
 
         if day_of_season < 1 or day_of_season > season.amount_of_days:
-            raise DayOutOfSeasonRange(season.name, season.amount_of_days, day_of_season)
+            day_of_season = capBetween(day_of_season, 1, season.amount_of_days)
 
         return WeatherDay.__generate(biome, season, day_of_season)
 
@@ -49,15 +50,15 @@ class WeatherDay:
         currentDaySeason = season.getTransitionSeason(day_of_season)
         nextDaySeason = season.getTransitionSeason(day_of_season + 1)
 
-        previousTempData = previousDaySeason.randomTemperatureData()
         currentTempData = currentDaySeason.randomTemperatureData()
-        nextTempData = nextDaySeason.randomTemperatureData()
+        previousTempData = previousDaySeason.randomTemperatureData(currentTempData['coldest_temp'], currentTempData['warmest_temp'])
+        nextTempData = nextDaySeason.randomTemperatureData(currentTempData['coldest_temp'], currentTempData['warmest_temp'])
 
         hour_0 = previousTempData['warmest_time']
         temp_0 = previousTempData['warmest_temp']
 
         hour_1 = config.hours_per_day
-        temp_1 = temp_0 - (1 - config.cooling_till_midnight) * abs(temp_0 - currentTempData['coldest_temp'])
+        temp_1 = temp_0 - config.cooling_till_midnight * abs(temp_0 - currentTempData['coldest_temp'])
 
         hour_2 = config.hours_per_day + currentTempData['coldest_time']
         temp_2 = currentTempData['coldest_temp']
@@ -66,7 +67,7 @@ class WeatherDay:
         temp_3 = currentTempData['warmest_temp']
 
         hour_4 = config.hours_per_day * 2
-        temp_4 = temp_3 - (1 - config.cooling_till_midnight) * abs(temp_3 - nextTempData['coldest_temp'])
+        temp_4 = temp_3 - config.cooling_till_midnight * abs(temp_3 - nextTempData['coldest_temp'])
 
         hour_5 = nextTempData['coldest_time'] + config.hours_per_day * 2
         temp_5 = nextTempData['coldest_temp']
