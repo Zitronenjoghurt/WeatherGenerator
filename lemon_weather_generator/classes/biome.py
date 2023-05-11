@@ -35,7 +35,7 @@ class Biome:
     def getSeasonFromDayOfYear(self, day_of_year: int) -> tuple[Season, int]:
         biome_max_days = self.getTotalAmountOfDays()
 
-        if day_of_year < 1 or day_of_year > biome_max_days:
+        if day_of_year < 0 or day_of_year > biome_max_days:
             raise DayOutOfBiomeRange(self.name, biome_max_days, day_of_year)
     
         cumulative_days = [0] + list(accumulate(season.amount_of_days for season in self.seasons.getSeasonList()))

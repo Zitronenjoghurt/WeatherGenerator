@@ -20,3 +20,16 @@ def convertTemperature(value: float, original_unit: str, target_unit: str) -> fl
             result = (value - 273.15) * (9/5) + 32
     
     return round(result, config.decimal_digits)
+
+def convertTemperatureDifference(value: float, original_unit: str, target_unit: str) -> float:
+    config = Config.get_instance()
+    conversion = (original_unit.capitalize(), target_unit.capitalize())
+
+    result = value
+    match conversion:
+        case ('C', 'F') | ('K', 'F'):
+            result = value * 1.8
+        case ('F', 'C') | ('F', 'K'):
+            result = value * (5/9)
+
+    return round(result, config.decimal_digits)

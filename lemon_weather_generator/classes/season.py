@@ -95,7 +95,7 @@ class Season:
         config = Config.get_instance()
 
         warmest_temp = unitConverter.convertTemperature(self.temperatures.randomize(), self.getTemperatureUnit(), config.temperature_unit)
-        cooling = self.cooling.randomize()
+        cooling = unitConverter.convertTemperatureDifference(self.cooling.randomize(), self.getTemperatureUnit(), config.temperature_unit)
         coldest_temp = warmest_temp - cooling
 
         warmest_time = self.getSunSetHour()
