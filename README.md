@@ -28,7 +28,7 @@ To customize general settings you can edit `/configurations/config.json`
 |`temperature_unit`|str|The unit that gets used for randomly generated temperatures.|`"C"`|`"K"`= K \| `"C"`=°C \| `"F"`=°F
 |`time_format`|str|Your preferred time format|`"24"`|`"12"` or `"24"`|
 |`hours_per_day`|int|How many hours of weather forecast each day should have.|`24`||
-|`cooling_till_midnight`|float|How much of the cooling from the current peak temperature to the lowest temperature of the next day is completed at midnight. 0.75 means that the temperature at midnight already cooled down 75% to the lowest temperature of the next day.|`0.75`|0 to 1|
+|`cooling_till_midnight`|float|How much of the cooling from the current peak temperature to the lowest temperature of the next day is completed at midnight. 0.75 means that the temperature at midnight already cooled down 75% to the lowest temperature of the next day.|`0.6`|0 to 1|
 
 ## Biomes
 To customize biomes you can create or edit files in `/configurations/biomes`. An example biome for reference is `temperate.json`.
@@ -48,4 +48,5 @@ To customize biomes you can create or edit files in `/configurations/biomes`. An
 |`amount_of_days`|int|The amount of days the season will have.|`90`||
 |`daytime_percentage`|float|The percentage of daylight the first day of a season has. 50 means 50% day, 50% night. 60 means 60% day, 40% night. Throughout the season the daytime_percentage will gradually shift towards that of the next season.|`50`|between 0 and 100|
 |`temperatures`|list[float] or dict|For generating random max/peak temperature values for days of the season.|`[0, 20]`|`[float, float]` or `{'min': float, 'max': float, 'mean': float, 'deviation': float}`|
+|`max_days_temperature_difference`|float|The maximum difference of peak and low temperatures between two days.|`5`|greater or equal 0|
 |`cooling`|list[float] or dict|For generating random cooling values for days of the season. Cooling will determine how much cooler the coldest temperature of a day compared to the warmest temperature of a day is.|`[0,0]`|`[float, float]` or `{'min': float, 'max': float, 'mean': float, 'deviation': float}`|
