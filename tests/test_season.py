@@ -64,16 +64,29 @@ def test_getSunSetHour():
     assert summer.getSunSetHour() == 20.4
     assert winter.getSunSetHour() == 15.6
 
-'''
-def test_randomTemperature():
-    season1 = Season(Seasons(Biome('temperate', 'C')), 'summer', 70, [15, 35])
-    season2 = Season(Seasons(Biome('temperate', 'C')), 'winter', 30, [-50, 0])
+def test_getTemperatureUnit():
+    temperate = Biome('temperate', 'C', [{'name': 'spring', 'daytime_percentage': 50, 'temperatures': [0, 20]}])
+    assert temperate['spring'].getTemperatureUnit() == 'C'
 
-    temp1 = season1.randomTemperature()
-    assert temp1 >= 15 and temp1 <= 35
-    assert str(temp1)[::-1].find('.') == 2 # two decimal places
+def test_randomTemperatureData():
+    temperate = Biome('temperate', 'C', [{'name': 'spring', 'daytime_percentage': 50, 'temperatures': [0, 20]}])
 
-    temp2 = season2.randomTemperature()
-    assert temp2 >= -50 and temp2 <= 0
-    assert str(temp2)[::-1].find('.') == 2 # two decimal places
-'''
+    temperatureData = temperate['spring'].randomTemperatureData()
+    assert temperatureData['coldest_temp'] >= temperate['spring'].temperatures.min
+    assert temperatureData['warmest_temp'] <= temperate['spring'].temperatures.max
+    assert temperatureData['coldest_time'] == temperate['spring'].getSunRiseHour()
+    assert temperatureData['warmest_time'] == temperate['spring'].getSunSetHour()
+
+def test_ensureMaxTemperatureDifference():
+    summer = Season(name='summer', max_days_temperature_difference=5)
+    winter = Season(name='winter', max_days_temperature_difference=10)
+
+    assert summer.ensureMaxTemperatureDifference(10, 20) >= 15
+    assert summer.ensureMaxTemperatureDifference(20, 10) <= 15
+    assert summer.ensureMaxTemperatureDifference(10, 15) == 10
+    assert summer.ensureMaxTemperatureDifference(15, 10) == 15
+
+    assert winter.ensureMaxTemperatureDifference(10, 30) >= 20
+    assert winter.ensureMaxTemperatureDifference(30, 10) <= 20
+    assert winter.ensureMaxTemperatureDifference(10, 20) == 10
+    assert winter.ensureMaxTemperatureDifference(20, 10) == 20
